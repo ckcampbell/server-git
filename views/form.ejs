@@ -1,0 +1,171 @@
+<html>
+<style>
+th, td {
+	padding-right: 30px;
+}
+</style>
+	<head>
+		<title>Fiber Laser Phased-Array Controller</title>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+	</head>
+    <body>
+			
+		<h1>Fiber Laser Phased-Array Controller</h1>
+		<p>Welcome to the Fiber Laser Phased-Array Controller</p>
+		<form action="/" method="post"">
+			<fieldset>
+				<label>Channels:</label>
+				<input type="radio" name="channel" value="7" />7
+				<input type="radio" name="channel" value="19" />19	<br />	<br />
+				<table>
+				<tr><td><label for="pert">Pert gain:</label>
+				<input type="range" name="pert" id="pert" min="0.001" value="0.03" max="1" step="0.001" oninput="pertOut.value = pert.value"/>
+				(default value: 0.03) </td>
+				<td><b><output name="pertOut" value="0.03" id="pertOut"></output></b></td></tr>
+				
+				<tr><td><label for="leap">Leap gain:</label>
+				<input type="range" id="leap" name="leap" min="1" value="1500" max="10000" step="1" oninput="leapOut.value = leap.value"/>
+				(default value: 1500)</td>
+				<td><b><output name="leapOut" value="1500" id="leapOut"></output></td></b></tr>
+
+				<tr><td><label for="round_trip">Round trip time:</label>
+				<input type="number" id="round_trip" name="round_trip" min="10e-9" value="10e-9" max="100e-9" step="10e-9"/>
+				(default value: 10ns)</td>
+				<td><b><output name="trip" id="trip"></output></td></b></tr></table><br />
+						
+				Channel offsets (default for all: 0): <br />
+				<table>
+				<tr>
+				
+				<th><label for="ch1"> 1:</label>
+				<input type="number" name="offset1" id="offset1" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label for="ch2"> 2:</label>
+				<input type="number" name="offset2" id="offset2" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label for="ch3"> 3:</label>
+				<input type="number" name="offset3" id="offset3" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<tr>
+				<th>
+				<label for="ch4"> 4:</label>
+				<input type="number" name="offset4" id="offset4" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label for="ch5"> 5:</label>
+				<input type="number" name="offset5" id="offset5" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label for="ch6"> 6:</label>
+				<input type="number" name="offset6" id="offset6" value="0" placeholder="Enter offset" />
+				</th>
+				</tr>
+				
+				<tr>
+				<th>
+				<label for="ch7"> 7:</label>
+				<input type="number" name="offset7" id="offset7" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label for="ch8"> 8:</label>
+				<input type="number" name="offset8" id="offset8" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label for="ch9"> 9:</label>
+				<input type="number" name="offset9" id="offset9" value="0" placeholder="Enter offset" />
+				</th>
+				</tr>
+				
+				<tr>
+				<th>
+				<label for="ch10">10:</label>
+				<input type="number" name="offset10" id="offset10" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label for="ch11">11:</label>
+				<input type="number" name="offset11" id="offset11" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label for="ch12">12:</label>
+				<input type="number" name="offset12" id="offset12" value="0" placeholder="Enter offset" />
+				</th>
+				</tr>
+				
+				<tr>
+				<th>
+				<label for="ch13">13:</label>
+				<input type="number" name="offset13" id="offset13" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label for="ch14">14:</label>
+				<input type="number" name="offset14" id="offset14" value="0" placeholder="Enter offset" />
+				</th>
+			
+				<th>
+				<label for="ch15">15:</label>
+				<input type="number" name="offset15" id="offset15" value="0" placeholder="Enter offset" />
+				</th>
+				</tr>
+				
+				<tr>
+				<th>
+				<label for="ch16">16:</label>
+				<input type="number" name="offset16" id="offset16" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label for="ch17">17:</label>
+				<input type="number" name="offset17" id="offset17" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label for="ch18">18:</label>
+				<input type="number" name="offset18" id="offset18" value="0" placeholder="Enter offset" />
+				</th>
+				</tr>
+				
+				<tr>
+				<th>
+				<label for="ch19">19:</label>
+				<input type="number" name="offset19" id="offset19" value="0" placeholder="Enter offset" />
+				</th>
+				</tr>
+				
+				<!-- <tr>
+				<th>
+				<label for="filename">(If Saving Values) File Name:</label>
+				<input type="text" name="filename" onclick="show_alert()" id="filename" value="saved_values" placeholder="Enter filename" />
+				</th>
+				</tr> -->
+				</table>
+								
+				<button type="submit" class="btn btn-primary btn-lg" formaction="/run">Run</button>
+				<button type="submit" class="btn btn-primary btn-lg" formaction="/update">Update</button>
+				<button type="submit" class="btn btn-primary btn-lg" formaction="/reset">Reset</button>
+				<button type="button" onclick="show_alert()" class="btn btn-primary btn-lg" formaction="/save7">Save 7 Channel Value Set</button>
+				<button type="button" onclick="show_alert()" class="btn btn-primary btn-lg" formaction="/save19">Save 19 Channel Value Set</button>
+				<button type="button" onclick="load_7()" class="btn btn-primary btn-lg" formaction="/load7">Load 7 Channel Presets</button>
+				<button type="button" onclick="load19()" class="btn btn-primary btn-lg" formaction="/load19">Save 19 Channel Presets</button>
+
+
+			</fieldset>
+		</form>
+		<script type="text/javascript">
+		function show_alert(){
+			alert("Warning: Overwriting previous default values.");
+		}
+		</script>
+	</body>
+</html>
