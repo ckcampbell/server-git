@@ -154,17 +154,45 @@ th, td {
 				<button type="submit" class="btn btn-primary btn-lg" formaction="/run">Run</button>
 				<button type="submit" class="btn btn-primary btn-lg" formaction="/update">Update</button>
 				<button type="submit" class="btn btn-primary btn-lg" formaction="/reset">Reset</button>
-				<button type="button" onclick="show_alert()" class="btn btn-primary btn-lg" formaction="/save7">Save 7 Channel Value Set</button>
-				<button type="button" onclick="show_alert()" class="btn btn-primary btn-lg" formaction="/save19">Save 19 Channel Value Set</button>
+				<button type="button" onclick="show_alert7()" class="btn btn-primary btn-lg" formaction="/save7">Save 7 Channel Value Set</button>
+				<button type="button" onclick="show_alert19()" class="btn btn-primary btn-lg" formaction="/save19">Save 19 Channel Value Set</button>
 				<button type="button" onclick="load_7()" class="btn btn-primary btn-lg" formaction="/load7">Load 7 Channel Presets</button>
-				<button type="button" onclick="load19()" class="btn btn-primary btn-lg" formaction="/load19">Save 19 Channel Presets</button>
+				<button type="button" onclick="load19()" class="btn btn-primary btn-lg" formaction="/load19">Load 19 Channel Presets</button>
+				
+				<p id="7 Channel Values"></p>
+				<p id="19 Channel Values"></p>
+
 
 
 			</fieldset>
 		</form>
 		<script type="text/javascript">
-		function show_alert(){
-			alert("Warning: Overwriting previous default values.");
+		function load_7()
+		{
+			document.getElementById("pert").value = 0.5;
+			document.getElementById("pertOut").value = 0.5;
+			document.getElementById("offset1").value = 9;
+		}
+		function load_19()
+		{
+		
+		}
+		function show_alert7()
+		{
+			if (confirm("Are you sure you want to overwrite the 7 channel saved values?")) {
+				
+			} 
+			else {
+			}		
+		}
+		
+		function show_alert19()
+		{
+			if (confirm("Are you sure you want to overwrite the 19 channel saved values?")) {
+				
+			} 
+			else {
+			}		
 		}
 		</script>
 	</body>
