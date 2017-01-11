@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <style>
 th, td {
@@ -5,14 +6,26 @@ th, td {
 }
 </style>
 	<head>
+		<meta charset="utf-8">
 		<title>Fiber Laser Phased-Array Controller</title>
-		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<script type="text/javascript" src="assets/jquery.js"></script>
+		<script>
+		$(document).ready(function(){
+			$("button").click(function(){
+				$.getJSON("demo_ajax_json.js", function(result){
+					$.each(result, function(i, field){
+						$("div").append(field + " ");
+					});
+				});
+			});
+		});
+		</script>
 	</head>
     <body>
 			
 		<h1>Fiber Laser Phased-Array Controller</h1>
 		<p>Welcome to the Fiber Laser Phased-Array Controller</p>
-		<form action="/" method="post"">
+		<form action="/" method="post">
 			<fieldset>
 				<label>Channels:</label>
 				<input type="radio" name="channel" value="7" />7
@@ -21,17 +34,17 @@ th, td {
 				<tr><td><label for="pert">Pert gain:</label>
 				<input type="range" name="pert" id="pert" min="0.001" value="0.03" max="1" step="0.001" oninput="pertOut.value = pert.value"/>
 				(default value: 0.03) </td>
-				<td><b><output name="pertOut" value="0.03" id="pertOut"></output></b></td></tr>
+				<td><b><output name="pertOut" value="" id="pertOut"></output></b></td></tr>
 				
 				<tr><td><label for="leap">Leap gain:</label>
 				<input type="range" id="leap" name="leap" min="1" value="1500" max="10000" step="1" oninput="leapOut.value = leap.value"/>
 				(default value: 1500)</td>
-				<td><b><output name="leapOut" value="1500" id="leapOut"></output></td></b></tr>
+				<td><b><output name="leapOut" value="1500" id="leapOut"></output></b></td></tr>
 
 				<tr><td><label for="round_trip">Round trip time:</label>
 				<input type="number" id="round_trip" name="round_trip" min="10e-9" value="10e-9" max="100e-9" step="10e-9"/>
 				(default value: 10ns)</td>
-				<td><b><output name="trip" id="trip"></output></td></b></tr></table><br />
+				<td><b><output name="trip" id="trip"></output></b></td></tr></table><br />
 						
 				Channel offsets (default for all: 0): <br />
 				<table>
@@ -154,46 +167,15 @@ th, td {
 				<button type="submit" class="btn btn-primary btn-lg" formaction="/run">Run</button>
 				<button type="submit" class="btn btn-primary btn-lg" formaction="/update">Update</button>
 				<button type="submit" class="btn btn-primary btn-lg" formaction="/reset">Reset</button>
-				<button type="button" onclick="show_alert7()" class="btn btn-primary btn-lg" formaction="/save7">Save 7 Channel Value Set</button>
-				<button type="button" onclick="show_alert19()" class="btn btn-primary btn-lg" formaction="/save19">Save 19 Channel Value Set</button>
-				<button type="button" onclick="load_7()" class="btn btn-primary btn-lg" formaction="/load7">Load 7 Channel Presets</button>
-				<button type="button" onclick="load19()" class="btn btn-primary btn-lg" formaction="/load19">Load 19 Channel Presets</button>
+				<button type="button" onclick="" class="btn btn-primary btn-lg" formaction="/save7">Save 7 Channel Value Set</button>
+				<button type="button" onclick="" class="btn btn-primary btn-lg" formaction="/save19">Save 19 Channel Value Set</button>
+				<button type="button" onclick="" class="btn btn-primary btn-lg" formaction="/load7">Load 7 Channel Presets</button>
+				<button type="button" onclick="" class="btn btn-primary btn-lg" formaction="/load19">Load 19 Channel Presets</button>
 				
-				<p id="7 Channel Values"></p>
-				<p id="19 Channel Values"></p>
-
-
+				<div id="7ChVal"></div>
+				<p id="19ChVal"></p>
 
 			</fieldset>
 		</form>
-		<script type="text/javascript">
-		function load_7()
-		{
-			document.getElementById("pert").value = 0.5;
-			document.getElementById("pertOut").value = 0.5;
-			document.getElementById("offset1").value = 9;
-		}
-		function load_19()
-		{
-		
-		}
-		function show_alert7()
-		{
-			if (confirm("Are you sure you want to overwrite the 7 channel saved values?")) {
-				
-			} 
-			else {
-			}		
-		}
-		
-		function show_alert19()
-		{
-			if (confirm("Are you sure you want to overwrite the 19 channel saved values?")) {
-				
-			} 
-			else {
-			}		
-		}
-		</script>
 	</body>
 </html>

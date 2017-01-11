@@ -13,12 +13,17 @@ app.set('view engine', 'html');
 // parse html forms
 app.use(bodyParser.urlencoded({ extended : false }));
 
-// render the ejs page
+/* // render the ejs page
 app.get('/', function (req, res) {
   res.render('form.ejs');
-});
+}); */
 
-app.post('/', function (req, res) {
+// render the html page
+app.get('/', function (req, res) {
+   res.sendFile( __dirname + "/" + "form.html" );
+})
+
+/* app.post('/', function (req, res) {
   fs.readFile(file7, 'utf8', function (err, data) {
     if (err) {
       console.log('Error here: ' + err);
@@ -27,7 +32,7 @@ app.post('/', function (req, res) {
 	data = JSON.parse(data);
     res.send(data);
   });
-});
+}); */
 
 // when Run button is clicked
 app.post('/run', function (req, res) {
