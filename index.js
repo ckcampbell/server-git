@@ -20,19 +20,23 @@ app.get('/', function (req, res) {
 
 // render the html page
 app.get('/', function (req, res) {
-   res.sendFile( __dirname + "/" + "form.html" );
+   res.sendFile( __dirname + "/form.html" );
 })
 
-/* app.post('/', function (req, res) {
-  fs.readFile(file7, 'utf8', function (err, data) {
-    if (err) {
-      console.log('Error here: ' + err);
-      return;
-	}
-	data = JSON.parse(data);
-    res.send(data);
-  });
-}); */
+// load JQuery
+app.get('/assets/jquery.js', function (req, res) {
+   res.sendFile( __dirname + "/assets/jquery.js" );
+})
+
+// load default value set JSON files
+app.get('/saved_values/default7.json', function (req, res) {
+   res.sendFile( __dirname + "/saved_values/default7.json" );
+})
+
+app.get('/saved_values/default19.json', function (req, res) {
+   res.sendFile( __dirname + "/saved_values/default19.json" );
+})
+
 
 // when Run button is clicked
 app.post('/run', function (req, res) {
