@@ -117,6 +117,29 @@ app.post('/save', function (req, res) {
   }
   res.redirect('/');
 });
+
+app.post('/load', function (req, res) {
+  if(req.body.channel == 7){
+    //Storing data:
+	var inputs = req.body.pert + " " + req.body.leap + " " + req.body.round_trip + " " + req.body.offset1 + " " + req.body.offset2 + " " + req.body.offset3 + " " + req.body.offset4 + " " + req.body.offset5 + " " + req.body.offset6 + " " + req.body.offset7;
+	var obj = {'pert': req.body.pert, 'leap': req.body.leap, 'round_trip': req.body.round_trip, 'offset1': req.body.offset1, 'offset2': req.body.offset2, 'offset3': req.body.offset3, 'offset4': req.body.offset4, 'offset5': req.body.offset5, 'offset6': req.body.offset6, 'offset7': req.body.offset7};
+	var json = JSON.stringify(obj);
+	fs.writeFile('./saved_values/default7.json', json, 'utf8', (err) => {
+	  if (err) throw err;
+	  console.log('Inputs saved!');
+	});
+  }
+  else if(req.body.channel == 19){
+	var inputs = req.body.pert + " " + req.body.leap + " " + req.body.round_trip + " " + req.body.offset1 + " " + req.body.offset2 + " " + req.body.offset3 + " " + req.body.offset4 + " " + req.body.offset5 + " " + req.body.offset6 + " " + req.body.offset7;
+	var obj = {'pert': req.body.pert, 'leap': req.body.leap, 'round_trip': req.body.round_trip, 'offset1': req.body.offset1, 'offset2': req.body.offset2, 'offset3': req.body.offset3, 'offset4': req.body.offset4, 'offset5': req.body.offset5, 'offset6': req.body.offset6, 'offset7': req.body.offset7, 'offset8': req.body.offset8, 'offset9': req.body.offset9, 'offset10': req.body.offset10, 'offset11': req.body.offset11, 'offset12': req.body.offset12, 'offset13': req.body.offset13, 'offset14': req.body.offset14, 'offset15': req.body.offset15, 'offset16': req.body.offset16, 'offset17': req.body.offset17, 'offset18': req.body.offset18, 'offset19': req.body.offset19};
+	var json = JSON.stringify(obj);
+	fs.writeFile('./saved_values/default19.json', json, 'utf8', (err) => {
+	  if (err) throw err;
+	  console.log('Inputs saved!');
+	});
+  }
+  res.redirect('/');
+});
   
 app.listen(8000);
 console.log('App is listening on PORT 8000');
