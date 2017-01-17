@@ -6,6 +6,32 @@ var bodyParser = require('./node_modules/body-parser');
 var exec = require('child_process').exec;
 var fs = require('fs');
 
+fs.readdir('assets/bootstrap/css/', (err, files) => {
+  files.forEach(file => {
+	app.get("/assets/bootstrap/css/" + file, function (req, res) {
+		res.sendFile( __dirname + "/assets/bootstrap/css/" + file );
+	})
+    console.log(file);
+  });
+})
+
+fs.readdir('assets/bootstrap/js/', (err, files) => {
+  files.forEach(file => {
+	app.get("/assets/bootstrap/js/" + file, function (req, res) {
+		res.sendFile( __dirname + "/assets/bootstrap/js/" + file );
+	})
+    console.log(file);
+  });
+})
+
+fs.readdir('assets/bootstrap/fonts/', (err, files) => {
+  files.forEach(file => {
+	app.get("/assets/bootstrap/fonts/" + file, function (req, res) {
+		res.sendFile( __dirname + "/assets/bootstrap/fonts/" + file );
+	})
+    console.log(file);
+  });
+})
 
 // set ejs as rendering engine
 app.set('view engine', 'html');
@@ -13,17 +39,21 @@ app.set('view engine', 'html');
 // parse html forms
 app.use(bodyParser.urlencoded({ extended : false }));
 
-/* // render the ejs page
-app.get('/', function (req, res) {
-  res.render('form.ejs');
-}); */
-
 // render the html page
 app.get('/', function (req, res) {
    res.sendFile( __dirname + "/form.html" );
 })
 
-// load JQuery
+/* app.get("/assets/bootstrap/css/bootstrap.min.css", function (req, res) {
+    res.sendFile( __dirname + "/assets/bootstrap/css/bootstrap.min.css" );
+})
+
+app.get("/assets/bootstrap/js/bootstrap.min.js", function (req, res) {
+    res.sendFile( __dirname + "/assets/bootstrap/js/bootstrap.min.js");
+}) */
+
+
+// load JS files
 app.get('/assets/jquery.js', function (req, res) {
    res.sendFile( __dirname + "/assets/jquery.js" );
 })

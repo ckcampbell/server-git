@@ -7,17 +7,57 @@ th, td {
 </style>
 	<head>
 		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
 		<title>Fiber Laser Phased-Array Controller</title>
+		
+		<link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		
 		<script type="text/javascript" src="/assets/jquery.js"></script>
+	    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+		
 		<script>
+		function hide19(){ // Used to hide 19 channel offsets when 7 channel is selected
+			$("input[name='offset19']").hide();
+			$("label[name='offset19']").hide();
+		};
+		
+		function show19(){ // Used to hide 19 channel offsets when 7 channel is selected
+			$("input[name='offset19']").show();
+			$("label[name='offset19']").show();
+		};
+		
+		function load_table(){
+			var table;
+			$.getJSON( "/saved_values/default7.json", function(result){
+				$.each(result, function(i, field){
+					table += "<tr><td>" + i + "</td><td>" + field + "</td></tr>";
+				});
+			});
+			console.log(table);
+			$("#7ChVal").html(table);
+		};
+		
 		$(document).ready(function()
 		{
+			if("#channel7[checked]"){
+				hide19();
+			}
 			$("#load7").click(function(){
 				$.getJSON( "/saved_values/default7.json", function(result){
 					$.each(result, function(i, field){
+						if(i == "pert"){
+							document.getElementById("pertVal").value = field;
+						}
+						else if(i == "leap"){
+							document.getElementById("leapVal").value = field;
+						}
+						else if(i == "round_trip"){
+							document.getElementById("tripVal").value = field;
+						}
 						document.getElementById(i).value = field;
-						console.log(field);
-						console.log(i);
 					});
 					console.log( "success" );
 				})
@@ -30,10 +70,25 @@ th, td {
 				.always(function(){
 					console.log( "complete" );
 				});
+				document.getElementById("channel7").checked = true;
+				load_table();
+				hide19();
 			});
 			
 			$("#load19").click(function(){
-				var json_vals = $.getJSON( "/saved_values/default19.json", function(){
+				$.getJSON( "/saved_values/default19.json", function(result){
+					$.each(result, function(i, field){
+						document.getElementById(i).value = field;
+						if(i == "pert"){
+							document.getElementById("pertVal").value = field;
+						}
+						else if(i == "leap"){
+							document.getElementById("leapVal").value = field;
+						}
+						else if(i == "round_trip"){
+							document.getElementById("tripVal").value = field;
+						}
+					});
 					console.log( "success" );
 				})
 				.done(function(){
@@ -43,71 +98,74 @@ th, td {
 					console.log( "error" );
 				})
 				.always(function(){
-					console.log( "complete" );				
-					$("#19ChVal").text(json_vals);
+					console.log( "complete" );
 				});
-				$("#19ChVal").text(json_vals);
+				document.getElementById("channel19").checked = true;
+				show19();
 			});
 		});
 		</script>
 	</head>
     <body>
-			
+		<div class="container">	
 		<h1>Fiber Laser Phased-Array Controller</h1>
 		<p>Welcome to the Fiber Laser Phased-Array Controller</p>
 		<form action="/" method="post">
 			<fieldset>
 				<label>Channels:</label>
-				<input type="radio" name="channel" value="7" checked />7
-				<input type="radio" name="channel" value="19" />19	<br />	<br />
+				<input type="radio" id="channel7" name="channel" value="7" onclick="hide19()" checked />7
+				<input type="radio" id="channel19" name="channel" value="19" onclick="show19()" />19	<br />	<br />
+				
 				<table>
 				<tr><td><label for="pert">Pert gain:</label>
-				<input type="range" name="pert" id="pert" min="0.001" value="0.03" max="1" step="0.001" oninput="pertOut.value = pert.value"/>
-				(default value: 0.03) </td>
-				<td><b><output name="pertOut" value="0.03" id="pertOut">0.03</output></b></td></tr>
+				<input type="range" name="pert" id="pert" min="0.001" value="0.03" max="1" step="0.001" oninput="pertVal.value = pert.value"/>
+				(default value: 0.03; range: 0.001 - 1) 
+				<input name="pertVal" type="number" min="0.001" value="0.03" max="1" id="pertVal" readonly /></td></tr>
 				
 				<tr><td><label for="leap">Leap gain:</label>
-				<input type="range" id="leap" name="leap" min="1" value="1500" max="10000" step="1" oninput="leapOut.value = leap.value"/>
-				(default value: 1500)</td>
-				<td><b><output name="leapOut" value="1500" id="leapOut">1500</output></b></td></tr>
+				<input type="range" id="leap" name="leap" min="1" value="1500" max="10000" step="1" oninput="leapVal.value = leap.value" />
+				(default value: 1500; range: 1 - 10000)
+				<input name="leapVal" type="number" min="1" value="1500" max="10000" id="leapVal" readonly /></td></tr>
 
 				<tr><td><label for="round_trip">Round trip time:</label>
-				<input type="number" id="round_trip" name="round_trip" min="10e-9" value="10e-9" max="100e-9" step="10e-9"/>
-				(default value: 10ns)</td>
-				<td><b><output name="trip" id="trip"></output></b></td></tr></table><br />
+				<input type="range" id="round_trip" name="round_trip" min="1e-8" value="1e-8" max="1e-7" step="1e-8" oninput="tripVal.value = round_trip.value"/>
+				(default value: 10ns)
+				<input name="tripVal" type="number" min="1e-8" value="1e-8" max="1e-7" id="tripVal" readonly /></td></tr>
+				</table>
+				<br />
 						
 				Channel offsets (default for all: 0): <br />
 				<table>
 				<tr>
 				
 				<th><label for="ch1"> 1:</label>
-				<input type="number" name="offset1" id="offset1" value="0" placeholder="Enter offset" />
+				<input type="number" name="offset7" id="offset1" value="0" placeholder="Enter offset" />
 				</th>
 				
 				<th>
 				<label for="ch2"> 2:</label>
-				<input type="number" name="offset2" id="offset2" value="0" placeholder="Enter offset" />
+				<input type="number" name="offset7" id="offset2" value="0" placeholder="Enter offset" />
 				</th>
 				
 				<th>
 				<label for="ch3"> 3:</label>
-				<input type="number" name="offset3" id="offset3" value="0" placeholder="Enter offset" />
+				<input type="number" name="offset7" id="offset3" value="0" placeholder="Enter offset" />
 				</th>
 				
 				<tr>
 				<th>
 				<label for="ch4"> 4:</label>
-				<input type="number" name="offset4" id="offset4" value="0" placeholder="Enter offset" />
+				<input type="number" name="offset7" id="offset4" value="0" placeholder="Enter offset" />
 				</th>
 				
 				<th>
 				<label for="ch5"> 5:</label>
-				<input type="number" name="offset5" id="offset5" value="0" placeholder="Enter offset" />
+				<input type="number" name="offset7" id="offset5" value="0" placeholder="Enter offset" />
 				</th>
 				
 				<th>
 				<label for="ch6"> 6:</label>
-				<input type="number" name="offset6" id="offset6" value="0" placeholder="Enter offset" />
+				<input type="number" name="offset7" id="offset6" value="0" placeholder="Enter offset" />
 				</th>
 				</tr>
 				
@@ -118,71 +176,73 @@ th, td {
 				</th>
 				
 				<th>
-				<label for="ch8"> 8:</label>
-				<input type="number" name="offset8" id="offset8" value="0" placeholder="Enter offset" />
+				<label name="offset19" for="ch8"> 8:</label>
+				<input type="number" name="offset19" id="offset8" value="0" placeholder="Enter offset" />
 				</th>
 				
 				<th>
-				<label for="ch9"> 9:</label>
-				<input type="number" name="offset9" id="offset9" value="0" placeholder="Enter offset" />
-				</th>
-				</tr>
-				
-				<tr>
-				<th>
-				<label for="ch10">10:</label>
-				<input type="number" name="offset10" id="offset10" value="0" placeholder="Enter offset" />
-				</th>
-				
-				<th>
-				<label for="ch11">11:</label>
-				<input type="number" name="offset11" id="offset11" value="0" placeholder="Enter offset" />
-				</th>
-				
-				<th>
-				<label for="ch12">12:</label>
-				<input type="number" name="offset12" id="offset12" value="0" placeholder="Enter offset" />
+				<label name="offset19" for="ch9"> 9:</label>
+				<input type="number" name="offset19" id="offset9" value="0" placeholder="Enter offset" />
 				</th>
 				</tr>
 				
 				<tr>
 				<th>
-				<label for="ch13">13:</label>
-				<input type="number" name="offset13" id="offset13" value="0" placeholder="Enter offset" />
+				<label name="offset19" for="ch10">10:</label>
+				<input type="number" name="offset19" id="offset10" value="0" placeholder="Enter offset" />
 				</th>
 				
 				<th>
-				<label for="ch14">14:</label>
-				<input type="number" name="offset14" id="offset14" value="0" placeholder="Enter offset" />
+				<label name="offset19" for="ch11">11:</label>
+				<input type="number" name="offset19" id="offset11" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label name="offset19" for="ch12">12:</label>
+				<input type="number" name="offset19" id="offset12" value="0" placeholder="Enter offset" />
+				</th>
+				</tr>
+				
+				<tr>
+				<th>
+				<label name="offset19" for="ch13">13:</label>
+				<input type="number" name="offset19" id="offset13" value="0" placeholder="Enter offset" />
+				</th>
+				
+				<th>
+				<label name="offset19" for="ch14">14:</label>
+				<input type="number" name="offset19" id="offset14" value="0" placeholder="Enter offset" />
 				</th>
 			
 				<th>
-				<label for="ch15">15:</label>
-				<input type="number" name="offset15" id="offset15" value="0" placeholder="Enter offset" />
+				<label name="offset19" for="ch15">15:</label>
+				<input type="number" name="offset19" id="offset15" value="0" placeholder="Enter offset" />
 				</th>
 				</tr>
 				
 				<tr>
 				<th>
-				<label for="ch16">16:</label>
-				<input type="number" name="offset16" id="offset16" value="0" placeholder="Enter offset" />
+				<label name="offset19" for="ch16">16:</label>
+				<input type="number" name="offset19" id="offset16" value="0" placeholder="Enter offset" />
 				</th>
 				
 				<th>
-				<label for="ch17">17:</label>
-				<input type="number" name="offset17" id="offset17" value="0" placeholder="Enter offset" />
+				<label name="offset19" for="ch17">17:</label>
+				<input type="number" name="offset19" id="offset17" value="0" placeholder="Enter offset" />
 				</th>
 				
 				<th>
-				<label for="ch18">18:</label>
-				<input type="number" name="offset18" id="offset18" value="0" placeholder="Enter offset" />
+				<label name="offset19" for="ch18">18:</label>
+				<input type="number" name="offset19" id="offset18" value="0" placeholder="Enter offset" />
 				</th>
 				</tr>
 				
 				<tr>
 				<th>
-				<label for="ch19">19:</label>
+				<th>
+				<label name="offset19" for="ch19">19:</label>
 				<input type="number" name="offset19" id="offset19" value="0" placeholder="Enter offset" />
+				</th>
 				</th>
 				</tr>
 				
@@ -199,5 +259,6 @@ th, td {
 			</form>
 		<div id="7ChVal"></div>
 		<div id="19ChVal"></div>
+		</div>
 	</body>
 </html>
