@@ -12,8 +12,9 @@ th, td {
 		
 		<title>Fiber Laser Phased-Array Controller</title>
 		
-		<link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		
+		<link href="assets/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+		<link href="assets/bootstrap/css/custom.css" type="text/css" rel="stylesheet">
+
 		<script type="text/javascript" src="/assets/jquery.js"></script>
 	    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 
@@ -117,21 +118,34 @@ th, td {
 	</head>
     <body>
 
-		<nav class="navbar navbar-light" style="background-color: #0404B4">
+		<nav class="navbar navbar-default navbar-custom" >
+			<div class="container-fluid">
 			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
 				<a class="navbar-brand" href="#"><font color="white">Fiber Laser Phased-Array Controller</font></a>
 			</div>
-			<ul class="nav nav-tabs">
-				<li class="active"><a data-toggle="tab" href="#Home"><font color="white">Home</font></a></li>
-				<li><a data-toggle="tab" href="#7"><font color="white">7 Channel Settings</font></a></li>
-				<li><a data-toggle="tab" href="#19"><font color="white">19 Channel Settings</font></a></li>
-			</ul>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a data-toggle="tab" href="#Home">Home</a></li>
+					<li><a data-toggle="tab" href="#7">7 Channel Settings</a></li>
+					<li><a data-toggle="tab" href="#19">19 Channel Settings</a></li>
+				</ul>
+			</div>
+			</div>
 		</nav>
-		<div class="container-fluid">
-
+		<div class="container" >
 			<div class="tab-content">
 				<div id="Home" class="tab-pane fade in active">
 					<p>Welcome to the Fiber Laser Phased-Array Controller</p>
+						<form action="/" method="post">
+					<button type="submit" class="btn btn-custom btn-lg" formaction="/download7" title="Download the fiber laser array input values template." >Download 7-channel template</button>
+					<button type="submit" class="btn btn-custom btn-lg" formaction="/download19" title="Download the fiber laser array input values template." >Download 19-channel template</button>
+					</form>
 				</div>
 				<div id="7" class="tab-pane fade in">
 				<form action="/" method="post">
@@ -215,11 +229,11 @@ th, td {
 				
 					</table>
 								
-					<button type="submit" class="btn btn-primary btn-lg" formaction="/run7" title="Runs the Fiber Laser Phased-Array Controller with 7 channels using the values above." >Run</button>
-					<button type="submit" class="btn btn-primary btn-lg" formaction="/update7" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
-					<button type="submit" class="btn btn-primary btn-lg" formaction="/reset7" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
-					<button type="submit" onclick="return confirm('Are you sure you wish to overwrite the saved 7-channel presets?')" class="btn btn-primary btn-lg save" id="save7" formaction="/save7" title="Saves the currently entered values to the system's 7-channel preset file. DOES NOT download file.">Save 7 Channel Value Set</button>
-					<button type="button" onclick="" class="btn btn-primary btn-lg load" id="load7" formaction="/load7" title="Loads the values of the system's 7-channel preset file.">Load 7 Channel Presets</button>
+					<button type="submit" class="btn btn-custom btn-lg" formaction="/run7" title="Runs the Fiber Laser Phased-Array Controller with 7 channels using the values above." >Run</button>
+					<button type="submit" class="btn btn-custom btn-lg" formaction="/update7" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
+					<button type="submit" class="btn btn-custom btn-lg" formaction="/reset7" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
+					<button type="submit" onclick="return confirm('Are you sure you wish to overwrite the saved 7-channel presets?')" class="btn btn-custom btn-lg save" id="save7" formaction="/save7" title="Saves the currently entered values to the system's 7-channel preset file. DOES NOT download file.">Save 7 Channel Value Set</button>
+					<button type="button" onclick="" class="btn btn-custom btn-lg load" id="load7" formaction="/load7" title="Loads the values of the system's 7-channel preset file.">Load 7 Channel Presets</button>
 				
 				</fieldset>
 				</form>
@@ -374,16 +388,15 @@ th, td {
 							</tr>
 						</table>
 														
-						<button type="submit" class="btn btn-primary btn-lg" formaction="/run19" title="Runs the Fiber Laser Phased-Array Controller with 19 channels using the values above">Run</button>
-						<button type="submit" class="btn btn-primary btn-lg" formaction="/update19" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
-						<button type="submit" class="btn btn-primary btn-lg" formaction="/reset19" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
-						<button type="submit" onclick="return confirm('Are you sure you wish to overwrite the saved 19-channel presets?')" class="btn btn-primary btn-lg save" id="save19" formaction="/save19" title="Saves the currently entered values to the system's 19-channel preset file. DOES NOT download file.">Save 19 Channel Value Set</button>
-						<button type="button" onclick="" class="btn btn-primary btn-lg load" id="load19" formaction="/load19" title="Loads the values of the system's 19-channel preset file.">Load 19 Channel Presets</button>
+						<button type="submit" class="btn btn-custom btn-lg" formaction="/run19" title="Runs the Fiber Laser Phased-Array Controller with 19 channels using the values above">Run</button>
+						<button type="submit" class="btn btn-custom btn-lg" formaction="/update19" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
+						<button type="submit" class="btn btn-custom btn-lg" formaction="/reset19" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
+						<button type="submit" onclick="return confirm('Are you sure you wish to overwrite the saved 19-channel presets?')" class="btn btn-custom btn-lg save" id="save19" formaction="/save19" title="Saves the currently entered values to the system's 19-channel preset file. DOES NOT download file.">Save 19 Channel Value Set</button>
+						<button type="button" onclick="" class="btn btn-custom btn-lg load" id="load19" formaction="/load19" title="Loads the values of the system's 19-channel preset file.">Load 19 Channel Presets</button>
 					</fieldset>
 					</form>
 				</div>
 			</div>
-		
 		</div>
 	</body>
 </html>

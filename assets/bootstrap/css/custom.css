@@ -1,0 +1,39 @@
+
+/* ******************************************* */
+.navbar-custom {
+	background-color:rgba(0, 0, 200, 1);
+    color: #ffffff;
+  	border-radius:0;
+}
+  
+.navbar-custom .navbar-nav > li > a {
+  	color: #ffffff;
+}
+
+.navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
+    color: #ffffff;
+	background-color:rgba(0, 100, 220, 1);
+}
+      
+.navbar-custom .navbar-nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+	color: #ffffff;
+    background-color: #000000;
+}
+      
+.navbar-custom .navbar-brand {
+  	color:rgba(0, 0, 255, 0.69);
+}
+.navbar-custom .navbar-toggle {
+  	background-color:rgba(0, 0, 255, 0.69);
+}
+.navbar-custom .icon-bar {
+  	background-color:rgba(0, 0, 255, 0.69);
+}
+
+.btn-custom {
+	background-color:rgba(0, 0, 200, 1);
+    color:#ffffff;	
+}
+/* ********************************************** */
+

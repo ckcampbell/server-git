@@ -33,6 +33,15 @@ fs.readdir('assets/bootstrap/fonts/', (err, files) => {
   });
 })
 
+fs.readdir('assets/', (err, files) => {
+  files.forEach(file => {
+	app.get("/assets/" + file, function (req, res) {
+		res.sendFile( __dirname + "/assets/" + file );
+	})
+    console.log(file);
+  });
+})
+
 // set ejs as rendering engine
 app.set('view engine', 'html');
 
@@ -44,11 +53,11 @@ app.get('/', function (req, res) {
    res.sendFile( __dirname + "/form.html" );
 })
 
-// load JS files
+/* // load JS files
 app.get('/assets/jquery.js', function (req, res) {
    res.sendFile( __dirname + "/assets/jquery.js" );
 })
-
+ */
 // load default value set JSON files
 app.get('/saved_values/default7.json', function (req, res) {
    res.sendFile( __dirname + "/saved_values/default7.json" );
@@ -58,6 +67,14 @@ app.get('/saved_values/default19.json', function (req, res) {
    res.sendFile( __dirname + "/saved_values/default19.json" );
 })
 
+// when Download is pressed
+app.post('/download7', function (req, res) {
+	res.download(__dirname + '/assets/seven-channel-template.json');
+});
+
+app.post('/download19', function (req, res) {
+	res.download(__dirname + '/assets/nineteen-channel-template.json');
+});
 
 // when Run button is clicked
 app.post('/run7', function (req, res) {
