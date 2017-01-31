@@ -18,6 +18,15 @@ th, td {
 		<script type="text/javascript" src="/assets/jquery.js"></script>
 	    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 
+		<style>
+		body{
+			background-color:#F2EFEB;
+		}
+		tr.spaceUnder > td
+		{
+			padding-bottom: 1em;
+		}
+		</style>
 		
 		<script>
 		function hide19(){ // Used to hide 19 channel offsets when 7 channel is selected
@@ -116,8 +125,7 @@ th, td {
 		});
 		</script>
 	</head>
-    <body>
-
+    <body color="#000000">
 		<nav class="navbar navbar-default navbar-custom" >
 			<div class="container-fluid">
 			<div class="navbar-header">
@@ -141,46 +149,51 @@ th, td {
 		<div class="container" >
 			<div class="tab-content">
 				<div id="Home" class="tab-pane fade in active">
+				<div class="panel-group">
+				<div class="panel panel-default">
+				<div class="panel-body">
 					<p>Welcome to the Fiber Laser Phased-Array Controller</p>
-						<form action="/" method="post">
+				</div>
+				</div>
+				<div class="panel panel-default">
+				<div class="panel-body">
+					<form action="/" method="post">
 					<button type="submit" class="btn btn-custom btn-lg" formaction="/download7" title="Download the fiber laser array input values template." >Download 7-channel template</button>
 					<button type="submit" class="btn btn-custom btn-lg" formaction="/download19" title="Download the fiber laser array input values template." >Download 19-channel template</button>
 					</form>
 				</div>
+				</div>
+				</div>
+				</div>
 				<div id="7" class="tab-pane fade in">
+				<div class="panel-group">
+				<div class="panel panel-default">
+				<div class="panel-body">
 				<form action="/" method="post">
 				<fieldset>
-					<table>
-						<tr>
-						<th>
-						<label for="pert">Pert gain:</label>
-						<input type="range" id="pert7" name="pert" min="0.001" value="0.03" max="1" step="0.001" oninput="pertVal.value = pert.value"/>
-						(default value: 0.03; range: 0.001 - 1) 
-						<input name="pertVal" type="number" min="0.001" value="0.03" max="1" id="pertVal7" readonly />
-						</th>
-						</tr>
-				
-						<tr>
-						<th>
-						<label for="leap">Leap gain:</label>
-						<input type="range" id="leap7" name="leap7" min="1" value="1500" max="10000" step="1" oninput="leapVal.value = leap.value" />
-						(default value: 1500; range: 1 - 10000)
-						<input name="leapVal" type="number" min="1" value="1500" max="10000" id="leapVal7" readonly />
-						</th>
-						</tr>
+					<div class="row">
+						<div class="col-sm-4"><b>Pert gain</b> (default value: 0.03; range: 0.001 - 1):</div>
+						<div class="col-sm-2"><input type="range" id="pert7" name="pert" min="0.001" value="0.03" max="1" step="0.001" oninput="pertVal.value = pert.value"/></div>
+						<div class="col-sm-2"><input name="pertVal" type="number" min="0.001" value="0.03" max="1" id="pertVal7" readonly /></div>
+					</div>
+					<br />
+					
+					<div class="row">
+						<div class="col-sm-4"><b>Leap gain</b> (default value: 1500; range: 1 - 10000):</div>
+						<div class="col-sm-2"><input type="range" id="leap7" name="leap" min="1" value="1500" max="10000" step="1" oninput="leapVal.value = leap.value" /> </div>
+						<div class="col-sm-2"><input name="leapVal" type="number" min="1" value="1500" max="10000" id="leapVal7" readonly /> </div>
+					</div>
+					<br />
 
-						<tr>
-						<th>
-						<label for="round_trip">Round trip time:</label>
-						<input type="range" id="round_trip7" name="round_trip" min="1e-8" value="1e-8" max="1e-7" step="1e-8" oninput="tripVal.value = round_trip.value"/>
-						(default value: 10ns)
-						<input name="tripVal" type="number" min="1e-8" value="1e-8" max="1e-7" id="tripVal7" readonly />
-						</th>
-						</tr>
-					</table>
+					<div class="row">
+						<div class="col-sm-4"><b>Round trip time</b> (Default value: 10ns): </div>
+						<div class="col-sm-2"><input type="range" id="round_trip7" name="round_trip" min="1e-8" value="1e-8" max="1e-7" step="1e-8" oninput="tripVal.value = round_trip.value"/></div>
+						<div class="col-sm-2"><input name="tripVal" type="number" min="1e-8" value="1e-8" max="1e-7" id="tripVal7" readonly /></div>
+					</div>
+					<br />
 					<br />
 						
-					Channel offsets (default for all: 0): 
+					<b>Channel offsets</b> (default for all: 0): 
 					<br />
 					<table class="table table-striped">
 						<tr>
@@ -228,19 +241,34 @@ th, td {
 						</tr>
 				
 					</table>
-								
-					<button type="submit" class="btn btn-custom btn-lg" formaction="/run7" title="Runs the Fiber Laser Phased-Array Controller with 7 channels using the values above." >Run</button>
-					<button type="submit" class="btn btn-custom btn-lg" formaction="/update7" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
-					<button type="submit" class="btn btn-custom btn-lg" formaction="/reset7" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
-					<button type="submit" onclick="return confirm('Are you sure you wish to overwrite the saved 7-channel presets?')" class="btn btn-custom btn-lg save" id="save7" formaction="/save7" title="Saves the currently entered values to the system's 7-channel preset file. DOES NOT download file.">Save 7 Channel Value Set</button>
-					<button type="button" onclick="" class="btn btn-custom btn-lg load" id="load7" formaction="/load7" title="Loads the values of the system's 7-channel preset file.">Load 7 Channel Presets</button>
-				
+						
+					</form>
+					</div>
+					</div>
+					<div class="panel panel-default">
+					<div class="panel-body">
+						<div> <b>Upload a JSON file with saved values (see instructions on Home tab):</b> <input type="file" name="file" size="50" accept=".json" /> </div>
+					</div>
+					</div>
+					<div class="panel panel-default">
+					<div class="panel-body">			
+						<button type="submit" class="btn btn-custom btn-lg col-sm-2" formaction="/run7" title="Runs the Fiber Laser Phased-Array Controller with 7 channels using the values above." >Run</button>
+						<button type="submit" class="btn btn-custom btn-lg col-sm-2" formaction="/update7" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
+						<button type="submit" class="btn btn-custom btn-lg col-sm-2" formaction="/reset7" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
+						<button type="submit" onclick="return confirm('Are you sure you wish to overwrite the saved 7-channel presets?')" class="btn btn-custom btn-lg save col-sm-3" id="save7" formaction="/save7" title="Saves the currently entered values to the system's 7-channel preset file. DOES NOT download file.">Save 7 Channel Value Set</button>
+						<button type="button" onclick="" class="btn btn-custom btn-lg load col-sm-3" id="load7" formaction="/load7" title="Loads the values of the system's 7-channel preset file.">Load 7 Channel Presets</button>
+					</div>
+					</div>
 				</fieldset>
 				</form>
+				</div>
 				</div>
 				
 				<div id="19" class="tab-pane fade in">
 				<form action="/" method="post">
+					<div class="panel-group">
+					<div class="panel panel-default">
+					<div class="panel-body">
 					<fieldset>
 						<table>
 							<tr>
@@ -387,14 +415,21 @@ th, td {
 							</th>
 							</tr>
 						</table>
-														
-						<button type="submit" class="btn btn-custom btn-lg" formaction="/run19" title="Runs the Fiber Laser Phased-Array Controller with 19 channels using the values above">Run</button>
-						<button type="submit" class="btn btn-custom btn-lg" formaction="/update19" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
-						<button type="submit" class="btn btn-custom btn-lg" formaction="/reset19" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
-						<button type="submit" onclick="return confirm('Are you sure you wish to overwrite the saved 19-channel presets?')" class="btn btn-custom btn-lg save" id="save19" formaction="/save19" title="Saves the currently entered values to the system's 19-channel preset file. DOES NOT download file.">Save 19 Channel Value Set</button>
-						<button type="button" onclick="" class="btn btn-custom btn-lg load" id="load19" formaction="/load19" title="Loads the values of the system's 19-channel preset file.">Load 19 Channel Presets</button>
+						</div>
+						</div>
+						
+						<div class="panel panel-default">
+						<div class="panel-body">
+							<button type="submit" class="btn btn-custom btn-lg col-sm-2" formaction="/run19" title="Runs the Fiber Laser Phased-Array Controller with 19 channels using the values above">Run</button>
+							<button type="submit" class="btn btn-custom btn-lg col-sm-2" formaction="/update19" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
+							<button type="submit" class="btn btn-custom btn-lg col-sm-2" formaction="/reset19" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
+							<button type="submit" class="btn btn-custom btn-lg save col-sm-3" onclick="return confirm('Are you sure you wish to overwrite the saved 19-channel presets?')"  id="save19" formaction="/save19" title="Saves the currently entered values to the system's 19-channel preset file. DOES NOT download file.">Save 19 Channel Value Set</button>
+							<button type="button" class="btn btn-custom btn-lg load col-sm-3" id="load19" formaction="/load19" title="Loads the values of the system's 19-channel preset file.">Load 19 Channel Presets</button>
+						</div>
+						</div>
 					</fieldset>
 					</form>
+					</div>
 				</div>
 			</div>
 		</div>
