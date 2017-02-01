@@ -29,29 +29,48 @@ th, td {
 		</style>
 		
 		<script>
-		function hide19(){ // Used to hide 19 channel offsets when 7 channel is selected
-			$("input[name='offset19']").hide();
-			$("label[name='offset19']").hide();
-		};
-		
-		function show19(){ // Used to hide 19 channel offsets when 7 channel is selected
-			$("input[name='offset19']").show();
-			$("label[name='offset19']").show();
-		};
-		
-		function load_table(){
-			var table;
-			$.getJSON( "/saved_values/default7.json", function(result){
-				$.each(result, function(i, field){
-					table += "<tr><td>" + i + "</td><td>" + field + "</td></tr>";
-				});
-			});
-			console.log(table);
-			$("#7ChVal").html(table);
-		};
-		
 		$(document).ready(function()
 		{
+			/*********************************** Load data of uploaded file ***********************************************/
+			document.getElementById('import').onclick = function() {
+				var files = document.getElementById('selectFiles').files;
+				console.log(files);
+				if (files.length <= 0) {
+					return false;
+				}
+			  
+				var fr = new FileReader();
+			  
+				fr.onload = function(e) { 
+					console.log(e);
+					var result = JSON.parse(e.target.result);
+					var formatted = JSON.stringify(result, null, 2);
+					document.getElementById('result').value = formatted;
+					$.each(result, function(i, field){
+						if(i == "pert"){
+							document.getElementById("pert7").value = field;			
+							document.getElementById("pertVal7").value = field;
+						}
+						else if(i == "leap"){
+							document.getElementById("leap7").value = field;						
+							document.getElementById("leapVal7").value = field;
+						}
+						else if(i == "round_trip"){
+							document.getElementById("round_trip7").value = field;							
+							document.getElementById("tripVal7").value = field;
+						}
+						else if(i == "offset7"){
+							for(j = 0; j < 7; j++){
+								var channel = j + 1;
+								document.getElementById("offset7_" + channel).value = field[j];
+							}
+						}
+					});
+				}
+				fr.readAsText(files.item(0));
+			};
+		
+			/*********************************** Load 7 channel default values ***********************************************/
 			$("#load7").click(function(){
 				$.getJSON( "/saved_values/default7.json", function(result){
 					$.each(result, function(i, field){
@@ -87,6 +106,7 @@ th, td {
 				});
 			});
 			
+		/*********************************** Load 19 channel default values ***********************************************/			
 			$("#load19").click(function(){
 				$.getJSON( "/saved_values/default19.json", function(result){
 					$.each(result, function(i, field){
@@ -125,7 +145,7 @@ th, td {
 		});
 		</script>
 	</head>
-    <body color="#000000">
+    <body>
 		<nav class="navbar navbar-default navbar-custom" >
 			<div class="container-fluid">
 			<div class="navbar-header">
@@ -158,8 +178,8 @@ th, td {
 				<div class="panel panel-default">
 				<div class="panel-body">
 					<form action="/" method="post">
-					<button type="submit" class="btn btn-custom btn-lg" formaction="/download7" title="Download the fiber laser array input values template." >Download 7-channel template</button>
-					<button type="submit" class="btn btn-custom btn-lg" formaction="/download19" title="Download the fiber laser array input values template." >Download 19-channel template</button>
+					<button type="submit" class="btn btn-custom btn-md" formaction="/download7" title="Download the fiber laser array input values template." >Download 7-channel template</button>
+					<button type="submit" class="btn btn-custom btn-md" formaction="/download19" title="Download the fiber laser array input values template." >Download 19-channel template</button>
 					</form>
 				</div>
 				</div>
@@ -247,16 +267,18 @@ th, td {
 					</div>
 					<div class="panel panel-default">
 					<div class="panel-body">
-						<div> <b>Upload a JSON file with saved values (see instructions on Home tab):</b> <input type="file" name="file" size="50" accept=".json" /> </div>
+						<div class="col-sm-8"> <b>Upload a JSON file with saved values (see instructions on Home tab):</b> <input type="file" id="selectFiles" value="Import" />
+						<button id="import" class="btn btn-custom btn-sm col-sm-2">Import</button></div>
+						<textarea id="result" rows="14"></textarea>
 					</div>
 					</div>
 					<div class="panel panel-default">
 					<div class="panel-body">			
-						<button type="submit" class="btn btn-custom btn-lg col-sm-2" formaction="/run7" title="Runs the Fiber Laser Phased-Array Controller with 7 channels using the values above." >Run</button>
-						<button type="submit" class="btn btn-custom btn-lg col-sm-2" formaction="/update7" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
-						<button type="submit" class="btn btn-custom btn-lg col-sm-2" formaction="/reset7" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
-						<button type="submit" onclick="return confirm('Are you sure you wish to overwrite the saved 7-channel presets?')" class="btn btn-custom btn-lg save col-sm-3" id="save7" formaction="/save7" title="Saves the currently entered values to the system's 7-channel preset file. DOES NOT download file.">Save 7 Channel Value Set</button>
-						<button type="button" onclick="" class="btn btn-custom btn-lg load col-sm-3" id="load7" formaction="/load7" title="Loads the values of the system's 7-channel preset file.">Load 7 Channel Presets</button>
+						<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/run7" title="Runs the Fiber Laser Phased-Array Controller with 7 channels using the values above." >Run</button>
+						<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/update7" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
+						<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/reset7" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
+						<button type="submit" onclick="return confirm('Are you sure you wish to overwrite the saved 7-channel presets?')" class="btn btn-custom btn-md save col-sm-3" id="save7" formaction="/save7" title="Saves the currently entered values to the system's 7-channel preset file. DOES NOT download file.">Save 7 Channel Value Set</button>
+						<button type="button" onclick="" class="btn btn-custom btn-md load col-sm-3" id="load7" formaction="/load7" title="Loads the values of the system's 7-channel preset file.">Load 7 Channel Presets</button>
 					</div>
 					</div>
 				</fieldset>
@@ -417,14 +439,20 @@ th, td {
 						</table>
 						</div>
 						</div>
-						
 						<div class="panel panel-default">
 						<div class="panel-body">
-							<button type="submit" class="btn btn-custom btn-lg col-sm-2" formaction="/run19" title="Runs the Fiber Laser Phased-Array Controller with 19 channels using the values above">Run</button>
-							<button type="submit" class="btn btn-custom btn-lg col-sm-2" formaction="/update19" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
-							<button type="submit" class="btn btn-custom btn-lg col-sm-2" formaction="/reset19" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
-							<button type="submit" class="btn btn-custom btn-lg save col-sm-3" onclick="return confirm('Are you sure you wish to overwrite the saved 19-channel presets?')"  id="save19" formaction="/save19" title="Saves the currently entered values to the system's 19-channel preset file. DOES NOT download file.">Save 19 Channel Value Set</button>
-							<button type="button" class="btn btn-custom btn-lg load col-sm-3" id="load19" formaction="/load19" title="Loads the values of the system's 19-channel preset file.">Load 19 Channel Presets</button>
+							<div class="col-sm-8"> <b>Upload a JSON file with saved values (see instructions on Home tab):</b> <input type="file" id="selectFiles" value="Import" />
+							<button id="import" class="btn btn-custom btn-sm col-sm-2">Import</button></div>
+							<textarea id="result" rows="14"></textarea>
+						</div>
+						</div>
+						<div class="panel panel-default">
+						<div class="panel-body">
+							<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/run19" title="Runs the Fiber Laser Phased-Array Controller with 19 channels using the values above">Run</button>
+							<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/update19" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
+							<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/reset19" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
+							<button type="submit" class="btn btn-custom btn-md save col-sm-3" onclick="return confirm('Are you sure you wish to overwrite the saved 19-channel presets?')"  id="save19" formaction="/save19" title="Saves the currently entered values to the system's 19-channel preset file. DOES NOT download file.">Save 19 Channel Value Set</button>
+							<button type="button" class="btn btn-custom btn-md load col-sm-3" id="load19" formaction="/load19" title="Loads the values of the system's 19-channel preset file.">Load 19 Channel Presets</button>
 						</div>
 						</div>
 					</fieldset>
