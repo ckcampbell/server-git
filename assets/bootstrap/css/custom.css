@@ -94,5 +94,9 @@ fieldset[disabled] .btn-custom.active {
   color: #00539F; 
   background-color: #ffffff; 
 }
+
+.notbold{
+    font-weight:normal
+}​
 /* ********************************************** */
 

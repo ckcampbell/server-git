@@ -31,6 +31,68 @@ th, td {
 		<script>
 		$(document).ready(function()
 		{
+			function load_table(){
+				$.getJSON( "/saved_values/default7.json", function(result){
+					$.each(result, function(i, field){
+						if(i == "pert"){
+							$('#pert7table').html(field);
+						}
+						else if(i == "leap"){
+							$('#leap7table').html(field);
+						}
+						else if(i == "round_trip"){
+							$('#trip7table').html(field);
+						}
+						else if(i == "offset7"){
+							for(j = 0; j < 7; j++){
+								var channel = j + 1;
+								$("#ch7-" + channel+"table").html(field[j]);
+							}
+						}
+					});
+					console.log( "success" );
+				})
+				.done(function(){
+					console.log( "done" );
+				})
+				.fail(function(){
+					console.log( "error" );
+				})
+				.always(function(){
+					console.log( "complete" );
+				});
+				
+				$.getJSON( "/saved_values/default19.json", function(result){
+					$.each(result, function(i, field){
+						if(i == "pert"){
+							$('#pert19table').html(field);
+						}
+						else if(i == "leap"){
+							$('#leap19table').html(field);
+						}
+						else if(i == "round_trip"){
+							$('#trip19Valtable').html(field);
+						}
+						else if(i == "offset19"){
+							for(j = 0; j < 19; j++){
+								var channel = j + 1;
+								$("#ch19-" + channel+"table").html(field[j]);
+							}
+						}
+					});
+					console.log( "success" );
+				})
+				.done(function(){
+					console.log( "done" );
+				})
+				.fail(function(){
+					console.log( "error" );
+				})
+				.always(function(){
+					console.log( "complete" );
+				});
+			}
+			load_table();
 			/*********************************** Load data of uploaded file ***********************************************/
 			document.getElementById('import').onclick = function() {
 				var files = document.getElementById('selectFiles').files;
@@ -141,6 +203,7 @@ th, td {
 				.always(function(){
 					console.log( "complete" );
 				});
+				
 			});
 		});
 		</script>
@@ -162,6 +225,8 @@ th, td {
 					<li class="active"><a data-toggle="tab" href="#Home">Home</a></li>
 					<li><a data-toggle="tab" href="#7">7 Channel Settings</a></li>
 					<li><a data-toggle="tab" href="#19">19 Channel Settings</a></li>
+					<img src="assets/original_cvorg-final_720.png" alt="CVORG Logo" style="width:270px;height:162px;" align="right-side">
+
 				</ul>
 			</div>
 			</div>
@@ -192,21 +257,21 @@ th, td {
 				<form action="/" method="post">
 				<fieldset>
 					<div class="row">
-						<div class="col-sm-4"><b>Pert gain</b> (default value: 0.03; range: 0.001 - 1):</div>
+						<div class="col-sm-6"><b>Pert gain</b> (default value: 0.03; range: 0.001-1):</div>
 						<div class="col-sm-2"><input type="range" id="pert7" name="pert" min="0.001" value="0.03" max="1" step="0.001" oninput="pertVal.value = pert.value"/></div>
 						<div class="col-sm-2"><input name="pertVal" type="number" min="0.001" value="0.03" max="1" id="pertVal7" readonly /></div>
 					</div>
 					<br />
 					
 					<div class="row">
-						<div class="col-sm-4"><b>Leap gain</b> (default value: 1500; range: 1 - 10000):</div>
+						<div class="col-sm-6"><b>Leap gain</b> (default value: 1500; range: 1-10000):</div>
 						<div class="col-sm-2"><input type="range" id="leap7" name="leap" min="1" value="1500" max="10000" step="1" oninput="leapVal.value = leap.value" /> </div>
 						<div class="col-sm-2"><input name="leapVal" type="number" min="1" value="1500" max="10000" id="leapVal7" readonly /> </div>
 					</div>
 					<br />
 
 					<div class="row">
-						<div class="col-sm-4"><b>Round trip time</b> (Default value: 10ns): </div>
+						<div class="col-sm-6"><b>Round trip time</b> (Default value: 10ns): </div>
 						<div class="col-sm-2"><input type="range" id="round_trip7" name="round_trip" min="1e-8" value="1e-8" max="1e-7" step="1e-8" oninput="tripVal.value = round_trip.value"/></div>
 						<div class="col-sm-2"><input name="tripVal" type="number" min="1e-8" value="1e-8" max="1e-7" id="tripVal7" readonly /></div>
 					</div>
@@ -261,28 +326,43 @@ th, td {
 						</tr>
 				
 					</table>
-						
+					</fieldset>
+						<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/run7" title="Runs the Fiber Laser Phased-Array Controller with 7 channels using the values above." >Run</button>
+						<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/update7" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
+						<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/reset7" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
+						<button type="submit" onclick="return confirm('Are you sure you wish to overwrite the saved 7-channel presets?')" class="btn btn-custom btn-md save col-sm-3" id="save7" formaction="/save7" title="Saves the currently entered values to the system's 7-channel preset file. DOES NOT download file.">Save 7 Channel Value Set</button>
+						<button type="button" onclick="" class="btn btn-custom btn-md load col-sm-3" id="load7" formaction="/load7" title="Loads the values of the system's 7-channel preset file.">Load 7 Channel Presets</button>					
 					</form>
 					</div>
 					</div>
 					<div class="panel panel-default">
 					<div class="panel-body">
-						<div class="col-sm-8"> <b>Upload a JSON file with saved values (see instructions on Home tab):</b> <input type="file" id="selectFiles" value="Import" />
-						<button id="import" class="btn btn-custom btn-sm col-sm-2">Import</button></div>
-						<textarea id="result" rows="14"></textarea>
+						
+						<div class="row">
+							<div class="col-sm-6"> <b>Upload a JSON file with saved values (see instructions on Home tab):</b> </div>
+							<div class="col-sm-6"> <b>Current saved presets:</b> </div>							
+						</div>
+						<div class="row">
+							<div class="col-sm-6"><input type="file" id="selectFiles" value="Import" /></div>
+							
+						</div>
+						<div class="row">
+							<div class="col-sm-6"><textarea id="result" rows="8" cols="24"></textarea></div>
+							<div class="col-sm-6"><table class="table table-striped">
+								<tr>
+								<th class='notbold'>Pert gain:</th>		<th id="pert7table" class="notbold"></th><th class='notbold'>Round trip time:</th>		<th id="trip7table" class="notbold"></th></tr>
+								<tr>
+								<th class='notbold'>Leap gain:</th>		<th id="leap7table" class="notbold"></th><th class='notbold'>Channel 1 Offset:</th>		<th id="ch7-1table" class="notbold"></th></tr>
+								<tr><th class='notbold'>Channel 2 Offset:</th>		<th id="ch7-2table" class="notbold"></th><th class='notbold'>Channel 3 Offset:</th>		<th id="ch7-3table" class="notbold"></th></tr>
+								<tr><th class='notbold'>Channel 4 Offset:</th>		<th id="ch7-4table" class="notbold"></th><th class='notbold'>Channel 5 Offset:</th>		<th id="ch7-5table" class="notbold"></th></tr>
+								<tr><th class='notbold'>Channel 6 Offset:</th>		<th id="ch7-6table" class="notbold"></th><th class='notbold'>Channel 7 Offset:</th>		<th id="ch7-7table" class="notbold"></th></tr>						
+							</table></div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6"> <button id="import" class="btn btn-custom btn-md col-sm-">Import</button></div>
+						</div>
 					</div>
 					</div>
-					<div class="panel panel-default">
-					<div class="panel-body">			
-						<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/run7" title="Runs the Fiber Laser Phased-Array Controller with 7 channels using the values above." >Run</button>
-						<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/update7" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
-						<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/reset7" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
-						<button type="submit" onclick="return confirm('Are you sure you wish to overwrite the saved 7-channel presets?')" class="btn btn-custom btn-md save col-sm-3" id="save7" formaction="/save7" title="Saves the currently entered values to the system's 7-channel preset file. DOES NOT download file.">Save 7 Channel Value Set</button>
-						<button type="button" onclick="" class="btn btn-custom btn-md load col-sm-3" id="load7" formaction="/load7" title="Loads the values of the system's 7-channel preset file.">Load 7 Channel Presets</button>
-					</div>
-					</div>
-				</fieldset>
-				</form>
 				</div>
 				</div>
 				
@@ -437,26 +517,55 @@ th, td {
 							</th>
 							</tr>
 						</table>
-						</div>
-						</div>
-						<div class="panel panel-default">
-						<div class="panel-body">
-							<div class="col-sm-8"> <b>Upload a JSON file with saved values (see instructions on Home tab):</b> <input type="file" id="selectFiles" value="Import" />
-							<button id="import" class="btn btn-custom btn-sm col-sm-2">Import</button></div>
-							<textarea id="result" rows="14"></textarea>
-						</div>
-						</div>
-						<div class="panel panel-default">
-						<div class="panel-body">
+						</fieldset>
 							<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/run19" title="Runs the Fiber Laser Phased-Array Controller with 19 channels using the values above">Run</button>
 							<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/update19" title="Updates the Fiber Laser Phased-Array Controller values to those above (if it is already running).">Update</button>
 							<button type="submit" class="btn btn-custom btn-md col-sm-2" formaction="/reset19" title="Resets the Fiber Laser Phased-Array Controller (if it is already running).">Reset</button>
 							<button type="submit" class="btn btn-custom btn-md save col-sm-3" onclick="return confirm('Are you sure you wish to overwrite the saved 19-channel presets?')"  id="save19" formaction="/save19" title="Saves the currently entered values to the system's 19-channel preset file. DOES NOT download file.">Save 19 Channel Value Set</button>
 							<button type="button" class="btn btn-custom btn-md load col-sm-3" id="load19" formaction="/load19" title="Loads the values of the system's 19-channel preset file.">Load 19 Channel Presets</button>
+						</form>
 						</div>
 						</div>
-					</fieldset>
-					</form>
+						<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-6"> <b>Upload a JSON file with saved values (see instructions on Home tab):</b> </div>
+								<div class="col-sm-6"> <b>Current saved presets:</b> </div>							
+							</div>
+							<div class="row">
+								<div class="col-sm-6"><input type="file" id="selectFiles" value="Import" /></div>
+								
+							</div>
+							<div class="row">
+								<div class="col-sm-6"><textarea id="result" rows="8" cols="24"></textarea></div>
+								<div class="col-sm-6"><table class="table table-striped">
+									<tr>
+									<th class='notbold'>Pert gain:</th>		<th id="pert19table" class="notbold"></th><th class='notbold'>Round trip time:</th>		<th id="trip19table" class="notbold"></th></tr>
+									<tr>
+									<th class='notbold'>Leap gain:</th>		<th id="leap19table" class="notbold"></th><th class='notbold'>Channel 1 Offset:</th>		<th id="ch19-1table" class="notbold"></th></tr>
+									<tr><th class='notbold'>Channel 2 Offset:</th>		<th id="ch19-2table" class="notbold"></th><th class='notbold'>Channel 3 Offset:</th>		<th id="ch19-3table" class="notbold"></th></tr>
+									<tr><th class='notbold'>Channel 4 Offset:</th>		<th id="ch19-4table" class="notbold"></th><th class='notbold'>Channel 5 Offset:</th>		<th id="ch19-5table" class="notbold"></th></tr>
+									<tr><th class='notbold'>Channel 6 Offset:</th>		<th id="ch19-6table" class="notbold"></th><th class='notbold'>Channel 7 Offset:</th>		<th id="ch19-7table" class="notbold"></th></tr>
+									<tr><th class='notbold'>Channel 8 Offset:</th>		<th id="ch19-8table" class="notbold"></th><th class='notbold'>Channel 9 Offset:</th>		<th id="ch19-9table" class="notbold"></th></tr>
+									<tr><th class='notbold'>Channel 10 Offset:</th>		<th id="ch19-10table" class="notbold"></th><th class='notbold'>Channel 11 Offset:</th>		<th id="ch19-11table" class="notbold"></th></tr>
+									<tr><th class='notbold'>Channel 12 Offset:</th>		<th id="ch19-12table" class="notbold"></th><th class='notbold'>Channel 13 Offset:</th>		<th id="ch19-13table" class="notbold"></th></tr>
+									<tr><th class='notbold'>Channel 14 Offset:</th>		<th id="ch19-14table" class="notbold"></th><th class='notbold'>Channel 15 Offset:</th>		<th id="ch19-15table" class="notbold"></th></tr>
+									<tr><th class='notbold'>Channel 16 Offset:</th>		<th id="ch19-16table" class="notbold"></th><th class='notbold'>Channel 17 Offset:</th>		<th id="ch19-17table" class="notbold"></th></tr>
+									<tr><th class='notbold'>Channel 18 Offset:</th>		<th id="ch19-18table" class="notbold"></th><th class='notbold'>Channel 19 Offset:</th>		<th id="ch19-19table" class="notbold"></th></tr>
+								</table></div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6"> <button id="import" class="btn btn-custom btn-md col-sm-">Import</button></div>
+							</div>
+
+						</div>
+						</div>
+						<div class="panel panel-default">
+						<div class="panel-body">
+							
+						</div>
+						</div>
+					
 					</div>
 				</div>
 			</div>
